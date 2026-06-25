@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resortswop Outbound Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E2236;--navy2:#13314c;--panel:#16324a;--line:#274863;--cream:#F4EEE1;--cream-dim:#aab9c9;--mute:#7e91a5;--teal:#15a39b;--teal-d:#0f7d77;--sun:#F2A93B;--coral:#E2674A;--green:#2C9A5B;--soft:rgba(21,163,155,.16);}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1100px 560px at 50% -8%,#16384f 0%,var(--navy) 62%);color:var(--cream);font-family:'Inter',Arial,sans-serif;min-height:100vh}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 70px}
+.brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px}
+.brand .logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:30px;letter-spacing:.3px;color:var(--cream)}
+.brand .logo b{color:var(--teal)}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--sun);box-shadow:0 0 12px var(--sun)}
+.kick{text-align:center;color:var(--teal);font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px;margin-top:4px}
+h1{font-family:'Poppins',sans-serif;font-weight:600;font-size:32px;text-align:center;margin:6px 0 4px}
+.sub{text-align:center;color:var(--cream-dim);margin:0 auto 24px;max-width:580px;font-size:15px;line-height:1.55}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px}
+.gate{max-width:440px;margin:8px auto}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--cream-dim);margin:14px 0 6px}
+input{width:100%;background:var(--navy);border:1px solid var(--line);color:var(--cream);padding:13px 14px;border-radius:10px;font-size:15px;font-family:inherit}
+input:focus{outline:none;border-color:var(--teal)}
+.btn{width:100%;margin-top:20px;background:var(--teal);color:#06231f;border:0;padding:15px;border-radius:10px;font-weight:700;font-size:15px;letter-spacing:.2px;cursor:pointer}
+.btn:hover{background:var(--teal-d);color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--cream)}
+.err{color:var(--coral);font-size:13.5px;margin-top:12px;min-height:18px;text-align:center;font-weight:600}
+#app{display:none}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.topbar .who{margin-left:auto;color:var(--cream-dim);font-size:13px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+.tier{background:var(--navy2);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:transform .12s,border-color .15s}
+.tier:hover{transform:translateY(-2px);border-color:var(--teal)}
+.tier.sel{border-color:var(--sun);box-shadow:0 0 0 3px rgba(242,169,59,.18)}
+.tier h4{font-family:'Poppins',sans-serif;margin:0 0 6px;font-size:16px;color:var(--cream)}
+.tier .lvl{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sun)}
+.tier p{margin:8px 0 0;color:var(--cream-dim);font-size:13px;line-height:1.5}
+.brief{background:var(--navy2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0 18px;display:none}
+.brief.show{display:block}
+.brief h3{margin:0 0 8px;font-family:'Poppins',sans-serif;font-size:18px;color:var(--cream)}
+.brief p{margin:6px 0;color:var(--cream-dim);font-size:14px;line-height:1.55}
+.brief b{color:var(--cream)}
+.stage{display:none;flex-direction:column;align-items:center;gap:14px;padding:8px 0 6px}
+.stage.show{display:flex}
+.orb{width:128px;height:128px;border-radius:50%;border:2px solid var(--line);background:radial-gradient(circle at 50% 36%,#1c4258,#0d2436);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,border-color .2s;color:var(--cream-dim);font-size:13px;font-weight:700;letter-spacing:.4px;text-align:center;user-select:none}
+.orb:hover{transform:translateY(-2px)}
+.orb:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px var(--soft)}
+.orb.live{border-color:var(--teal);color:var(--cream);box-shadow:0 0 0 6px var(--soft)}
+.orb.speaking{box-shadow:0 0 0 10px var(--soft);border-color:var(--teal)}
+.status{font-size:13px;color:var(--cream-dim);letter-spacing:.4px;text-transform:uppercase;font-weight:700}
+.timer{font-family:'Poppins',sans-serif;font-size:24px;letter-spacing:2px;color:var(--cream)}
+.tcript{margin-top:16px;max-height:250px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.turn{display:flex;gap:10px}
+.turn .tag{flex:0 0 78px;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;padding-top:3px}
+.turn.ai .tag{color:var(--sun)}.turn.user .tag{color:var(--green)}.turn.sys .tag{color:var(--cream-dim)}
+.turn .txt{font-size:14.5px;line-height:1.5;color:var(--cream-dim)}.turn.ai .txt{color:var(--cream)}
+.result{display:none;margin-top:20px;text-align:center}.result.show{display:block}
+.scorebig{font-family:'Poppins',sans-serif;font-size:60px;line-height:1}
+.verdict{font-size:16px;font-weight:700;margin:6px 0 2px}
+.verdict.pass{color:var(--green)}.verdict.fail{color:var(--coral)}.verdict.mid{color:var(--sun)}
+.result .note{color:var(--cream-dim);font-size:14px;margin:8px auto 0;max-width:480px;line-height:1.55}
+.foot{text-align:center;color:var(--mute);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="logo">Resort<b>swop</b></span><span class="dot"></span></div>
+  <div class="kick">Outbound Call Training</div>
+  <h1>Book the Mini Vac</h1>
+  <p class="sub">A live practice call against an AI prospect. Your job is to book them onto a discounted resort preview, the Mini Vac. Never sell ownership on the phone. Sell the preview, handle the pushback, and lock in a date. We record and score every call.</p>
+
+  <div class="card gate" id="gate">
+    <label>Access code</label>
+    <input id="g-code" type="text" autocomplete="off" placeholder="Enter your team code">
+    <label>Full name</label>
+    <input id="g-name" type="text" autocomplete="name" placeholder="Your name">
+    <label>Email</label>
+    <input id="g-email" type="email" autocomplete="email" placeholder="you@email.com">
+    <button class="btn" id="g-go">Start training</button>
+    <div class="err" id="g-err"></div>
+  </div>
+
+  <div id="app">
+    <div class="topbar"><span class="logo" style="font-family:'Poppins',sans-serif;font-weight:700;font-size:22px">Resort<b style="color:var(--teal)">swop</b></span><span style="color:var(--cream-dim);font-size:14px">Outbound Training</span><span class="who" id="who"></span></div>
+
+    <p style="color:var(--cream-dim);font-size:14px;margin:0 0 12px">Pick a prospect. They get tougher as you climb.</p>
+    <div class="tiers" id="tiers">
+      <div class="tier" data-d="warm" tabindex="0" role="button"><div class="lvl">Level 1</div><h4>Warm lead</h4><p>A scratch-card winner or referral. Curious and fairly open. Books if you explain the offer and ask.</p></div>
+      <div class="tier" data-d="skeptic" tabindex="0" role="button"><div class="lvl">Level 2</div><h4>Skeptical</h4><p>Wary. Asks "is this timeshare?" and "what's the catch". Books only if you reassure and handle it.</p></div>
+      <div class="tier" data-d="tough" tabindex="0" role="button"><div class="lvl">Level 3</div><h4>Tough</h4><p>Busy and brushing you off. "Not interested." Books only if you lead with value fast and close with confidence.</p></div>
+    </div>
+
+    <div class="brief" id="brief">
+      <h3 id="b-title">Your call</h3>
+      <p id="b-who"></p>
+      <p>Your mission: open professionally and say the call is recorded, ask what matters most in their holidays, present the <b>Mini Vac</b> (a resort preview valued at <b>R12,000 for R4,000</b>, weekend or midweek, with a percentage back after a short preview), handle their objections, and <b>book them on a date</b>. Do not pitch ownership on the phone.</p>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="orb" id="orb" role="button" tabindex="0" aria-label="Start or end the call">Click to<br>start call</div>
+      <div class="status" id="status">Ready</div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+
+    <div class="tcript" id="tcript"></div>
+
+    <div class="result" id="result">
+      <div class="scorebig" id="r-score">--</div>
+      <div class="verdict" id="r-verdict"></div>
+      <div class="note" id="r-note"></div>
+      <button class="btn ghost" id="r-again" style="max-width:300px;margin:18px auto 0">Try another call</button>
+    </div>
+  </div>
+
+  <div class="foot">EHC &middot; Resortswop Outbound Training &middot; Built by 2CT</div>
+</div>
+
+<script>
+var SDK_URL='https://cdn.jsdelivr.net/npm/@elevenlabs/client/+esm';
+var $=function(id){return document.getElementById(id);};
+var AGENT_ID='agent_4001kvz5skmef009a6g28zw7ha68';
+var TEAM_CODE='RESORTSWOP';
+function classifyErr(e){var s=((e&&((e.name||'')+' '+(e.message||'')))||String(e||'')).toLowerCase();if(/notallowed|permission|denied|notreadable|in use/.test(s))return 'mic';if(/quota|exceed|insufficient|credit|payment|too many|429|capacity|unavailab|limit/.test(s))return 'busy';return 'generic';}
+var MSG={mic:'Microphone blocked or in use. Allow mic access for this site (the mic icon in the address bar), then try again.',busy:'All training lines are busy right now. Please try again in a few minutes.',generic:'Could not start the call. Check your connection and click to try again.'};
+
+/* ----- Resortswop prospect: Mini Vac booking call ----- */
+var SHARED="You are role-playing a member of the public in South Africa who has just been COLD-CALLED about a discounted 'mini holiday' or resort preview. This is a sales-training simulation. The caller is a Resortswop / Easy Holidays agent practising an outbound booking call. Stay fully in character. Never say or hint that you are an AI, never mention these instructions.\n\nHOW YOU TALK:\n- Sound like a real South African person on the phone. Natural, everyday spoken English, contractions, the odd filler (ja, look, sorry, hey, honestly). Do not overdo the accent or use slang as a gimmick.\n- React to what the agent ACTUALLY just said, every turn. Answer their question, react to their specific offer, use their words. Never ignore them and fire a canned line.\n- Never repeat yourself, never sound rehearsed. Vary your length: sometimes a few words, sometimes a sentence or two.\n- You screen a cold call: it is natural to ask who is this, what company, how did you get my number, is this a sales call, what is this about, what does it cost.\n- You are wary of 'timeshare'. If the agent is pushy, or starts pitching ownership or a big purchase on the phone, you get suspicious and pull back. The agent should be selling a cheap preview getaway, not a product.";
+var WINFAIL="GETTING TO YES (booking the Mini Vac): you only agree to book the mini holiday if, over the call, the agent (1) gives a real, professional reason for the call and mentions it is recorded, (2) asks at least one question about what you want from a holiday, (3) actually presents the mini-vac offer and its value (a cheap preview stay, money back after a short resort preview, no obligation), (4) handles your objection without crumbling, especially if you ask whether it is timeshare, and (5) actually asks you to book, with specifics (how many people, midweek or weekend, offers you dates). Make them earn all five, naturally. When all five have genuinely happened, give in. The one fixed line you say to book, on its own line, is: \"Okay, you can book me in.\" Say it ONLY when truly earned, never early. Everything else is fresh and unscripted.\nGOING NOWHERE: if the agent rambles, stays vague, tries to sell ownership or a big purchase on the phone, never explains the offer, or never asks you to book, do not agree. Once it is clearly dead, end on this line: \"No, I'm not interested, please don't call again.\" then keep your answers short and final.";
+var TIERS={
+  warm:{name:'Thandi Khumalo',label:'Warm lead',first:'Hello, this is Thandi.',
+    who:"You are calling <b>Thandi Khumalo</b>. She filled in a competition scratch card at a mall and is fairly open to a cheap getaway. She is curious but still wants to know the catch.",
+    behavior:"You are a WARM, fairly open lead. You filled in a scratch card so you half expected a call. You are curious about a cheap holiday and willing to listen. You still ask the natural questions (what is it, what is the cost, is there a catch), but you are friendly and you book without too much resistance once the agent explains the offer and asks you for a date."},
+  skeptic:{name:'Pieter van Wyk',label:'Skeptical',first:'Hello, Pieter speaking.',
+    who:"You are calling <b>Pieter van Wyk</b>. He is wary of cold calls and has heard of timeshare traps. He needs reassurance before he will commit to anything.",
+    behavior:"You are SKEPTICAL. You screen hard: who is this, how did you get my number, is this a sales call. At some point you directly ask 'is this timeshare?' and 'what is the catch'. You are not hostile, but you need the agent to reassure you (a cheap preview, no obligation, short session) and handle your objections before you will book. If they do it well, you agree."},
+  tough:{name:'Mrs Naidoo',label:'Tough',first:'Yes, hello?',
+    who:"You are calling <b>Mrs Naidoo</b>. She is busy, has been called too many times, and is one sentence away from hanging up. Only a sharp, value-first agent earns the booking.",
+    behavior:"You are BUSY and brushing the agent off. Your instinct is to end the call: 'I'm not interested', 'I'm busy', 'who gave you my number'. You are short and a little impatient, not abusive. You only thaw if the agent leads with value fast, respects your time, handles your brush-offs without folding, and confidently asks for the booking. If they ramble or get pushy, you end it."}
+};
+var PASS=72;
+function buildPrompt(d){var t=TIERS[d];return SHARED+"\n\nYOUR CHARACTER: You are "+t.name+", taking a cold call at home.\n\nYOUR MOOD AND BEHAVIOUR ("+t.label+"):\n"+t.behavior+"\n\n"+WINFAIL;}
+
+/* ----- scoring ----- */
+var NEEDS=/(most important|what.*looking for|what matters|how many holidays|where.*holiday|dream (holiday|destination)|what.*you.*enjoy|tell me (a bit )?about|how often.*holiday|what.*you.*want|spend.*holiday|favourite (holiday|place))/i;
+var OFFER=/(mini ?(vac|holiday|break)|preview|resort (preview|stay|tour)|getaway|weekend or midweek|midweek or weekend|valued at|r ?4 ?000|r ?12 ?000|discount|special (rate|offer)|percentage|% ?back|money back|get.*back|umhlanga|durban|mpumalanga|la lucia|cabana|sabi|one of our (luxury )?resorts)/i;
+var OBJHANDLE=/(no obligation|just (a )?preview|informative|about (30|thirty) min|about an hour|short (session|preview)|completely up to you|not (selling|sold)|no pressure|understand (how )?you feel|many (of our )?(guests|clients)|i hear you|i get that)/i;
+var ASKBOOK=/(book|reserve|secure|lock (it|you) in|put you down|pencil you in|get you in|shall i (book|put|reserve)|which (date|one).*(suit|work)|midweek or weekend|how many people|how many of you|which of these dates|spot for you|set you up)/i;
+var INTRO=/(this is .* (calling|speaking) from|calling from (resortswop|easy holidays)|my name is|reason (for|i.?m) calling|i.?ll be brief|quality (assurance|purposes)|recorded|won.?t (take|keep) (you )?(long|much))/i;
+var WIN=/(book me in|you can book me|go ahead and book|put me down|let.?s do (the )?(weekend|midweek)|sign me up|okay,? book|yes,? book|i.?ll take it)/i;
+var HARDFAIL=/(not interested|take me off|don.?t call (me )?again|please stop|no thank you,? bye|i.?m hanging up)/i;
+function words(s){return (s||'').trim().split(/\s+/).filter(Boolean).length;}
+function scoreCall(turns){
+  var ops=turns.filter(function(t){return t.source==='user';}), ai=turns.filter(function(t){return t.source==='ai';});
+  var opW=ops.reduce(function(a,t){return a+words(t.message);},0), aiW=ai.reduce(function(a,t){return a+words(t.message);},0);
+  var totW=opW+aiW||1;
+  var booked=ai.some(function(t){return WIN.test(t.message);});
+  var hardFail=ai.some(function(t){return HARDFAIL.test(t.message);})&&!booked;
+  var asked=ops.some(function(t){return NEEDS.test(t.message);});
+  var disc=asked?100:0;
+  var offered=ops.some(function(t){return OFFER.test(t.message);});
+  var off=offered?100:0;
+  var handled=ops.filter(function(t){return OBJHANDLE.test(t.message);}).length;
+  var obj=booked?100:(handled>=2?92:handled===1?74:50);
+  var askedBook=ops.some(function(t){return ASKBOOK.test(t.message);});
+  var bookS=booked?100:(askedBook?45:0);
+  var firstOp=ops.length?ops[0].message:'';
+  var open=55; if(INTRO.test(firstOp))open+=35; if(words(firstOp)>0&&words(firstOp)<=45)open+=10; open=Math.max(15,Math.min(100,open));
+  var total=Math.round(Math.max(0,Math.min(100,bookS*0.32+disc*0.20+off*0.20+obj*0.16+open*0.12)));
+  return {total:total,booked:booked,hardFail:hardFail};
+}
+
+/* ----- state ----- */
+var agentId='', cand={name:'',email:''}, code='', diff='warm';
+var convo=null, transcript=[], callState='idle', activeSeq=0, finalizing=false, timerInt=null, startTs=0, lastConvId='', attempts=0;
+
+/* ----- gate ----- */
+$('g-go').addEventListener('click', function(){
+  var c=$('g-code').value.trim(), n=$('g-name').value.trim(), e=$('g-email').value.trim();
+  $('g-err').textContent='';
+  if(!c){$('g-err').textContent='Enter your team code.';return;}
+  if(!n){$('g-err').textContent='Enter your name.';return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){$('g-err').textContent='Enter a valid email.';return;}
+  if(c.toUpperCase()!==TEAM_CODE){ $('g-err').textContent='That code is not right. Check with your manager.'; return; }
+  agentId=AGENT_ID; cand={name:n,email:e.toLowerCase()}; code=c;
+  $('who').textContent=n; $('gate').style.display='none'; $('app').style.display='block'; document.querySelector('.sub').style.display='none';
+});
+['g-code','g-name','g-email'].forEach(function(id){var el=$(id);if(el){el.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();$('g-go').click();}});}});
+
+/* ----- tier select ----- */
+function selectTier(d){
+  if(callState!=='idle') return;
+  diff=d;
+  Array.prototype.forEach.call(document.querySelectorAll('.tier'),function(el){el.classList.toggle('sel',el.getAttribute('data-d')===d);});
+  var t=TIERS[d];
+  $('b-title').textContent='Your call: '+t.label;
+  $('b-who').innerHTML=t.who;
+  $('brief').classList.add('show'); $('stage').classList.add('show');
+  $('result').classList.remove('show'); transcript=[]; renderT(); setStatus('Ready'); $('timer').textContent='00:00';
+}
+Array.prototype.forEach.call(document.querySelectorAll('.tier'),function(el){
+  el.addEventListener('click',function(){selectTier(el.getAttribute('data-d'));});
+  el.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectTier(el.getAttribute('data-d'));}});
+});
+
+/* ----- transcript ----- */
+function pushSys(m){transcript.push({source:'sys',message:m});renderT();}
+function renderT(){
+  $('tcript').innerHTML=transcript.map(function(t){
+    var cls=t.source==='ai'?'ai':(t.source==='user'?'user':'sys');
+    var tag=t.source==='ai'?'Prospect':(t.source==='user'?'You':'');
+    return '<div class="turn '+cls+'"><div class="tag">'+tag+'</div><div class="txt">'+esc(t.message)+'</div></div>';
+  }).join('');
+  $('tcript').scrollTop=$('tcript').scrollHeight;
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+/* ----- timer / orb ----- */
+function startTimer(){startTs=Date.now();timerInt=setInterval(function(){var s=Math.floor((Date.now()-startTs)/1000);$('timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');},500);}
+function stopTimer(){clearInterval(timerInt);timerInt=null;}
+function setStatus(t){$('status').textContent=t;}
+function setOrb(){var o=$('orb');o.classList.toggle('live',callState==='live'||callState==='connecting');if(callState==='idle'){o.innerHTML='Click to<br>start call';}else if(callState==='connecting'){o.innerHTML='Connecting';}else if(callState==='live'){o.innerHTML='End call';}else{o.innerHTML='...';}}
+
+/* ----- call lifecycle ----- */
+$('orb').addEventListener('click', function(){ if(callState==='idle') startCall(); else if(callState==='connecting'||callState==='live') endCall(); });
+$('orb').addEventListener('keydown', function(ev){ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); $('orb').click(); } });
+window.addEventListener('beforeunload', function(){ if(convo){try{convo.endSession();}catch(e){}} });
+
+function startCall(){
+  if(callState!=='idle') return;
+  if(!agentId){ pushSys('Session not ready. Refresh and sign in again.'); return; }
+  var seq=++activeSeq; callState='connecting'; finalizing=false;
+  transcript=[]; lastConvId=''; renderT(); $('result').classList.remove('show');
+  setStatus('Connecting'); setOrb();
+  var t=TIERS[diff];
+  import(SDK_URL).then(function(mod){
+    if(seq!==activeSeq) return;
+    var Conversation=mod.Conversation;
+    Conversation.startSession({
+      agentId:agentId,
+      overrides:{agent:{prompt:{prompt:buildPrompt(diff)},firstMessage:t.first,language:'en'}},
+      onConnect:function(){ if(seq!==activeSeq)return; callState='live'; setStatus('Live'); setOrb(); startTimer(); },
+      onDisconnect:function(){ if(seq!==activeSeq)return; finalizeCall(); },
+      onError:function(err){ if(seq!==activeSeq)return; var k=classifyErr(err); if(k==='busy'||callState==='connecting'){ stopTimer(); pushSys(MSG[k]); setStatus(k==='busy'?'Lines busy':'Call dropped'); callState='idle'; setOrb(); } else { pushSys('Connection issue: '+((err&&err.message)||err)); } },
+      onModeChange:function(m){ if(seq!==activeSeq)return; $('orb').classList.toggle('speaking',m&&m.mode==='speaking'); },
+      onMessage:function(m){ if(seq!==activeSeq)return; if(!m||!m.message)return; transcript.push({source:m.source,message:m.message}); renderT(); }
+    }).then(function(session){
+      if(seq!==activeSeq){ try{session.endSession();}catch(e){} return; }
+      convo=session;
+      try{ if(session&&typeof session.getId==='function'){ var cid=session.getId(); if(cid) lastConvId=String(cid); } }catch(e){}
+    }).catch(function(e){
+      if(seq!==activeSeq) return;
+      var k=classifyErr(e);
+      setStatus(k==='mic'?'Mic blocked':(k==='busy'?'Lines busy':'Could not connect'));
+      pushSys(MSG[k]);
+      callState='idle'; setOrb();
+    });
+  }).catch(function(){ if(seq!==activeSeq) return; setStatus('SDK failed'); pushSys('Could not load the voice engine. Check your connection and try again.'); callState='idle'; setOrb(); });
+}
+function endCall(){ if(callState!=='connecting'&&callState!=='live') return; callState='ending'; setStatus('Scoring'); setOrb(); var c=convo; convo=null; if(c){try{c.endSession();}catch(e){}} finalizeCall(); }
+function finalizeCall(){
+  if(finalizing) return; finalizing=true; activeSeq++;
+  var c=convo; convo=null; if(c){try{c.endSession();}catch(e){}}
+  var dur=startTs?Math.round((Date.now()-startTs)/1000):0;
+  stopTimer(); $('orb').classList.remove('speaking');
+  callState='ending'; setStatus('Scoring'); setOrb();
+  setTimeout(function(){
+    var r=scoreCall(transcript);
+    renderResult(r);
+    if(transcript.filter(function(t){return t.source!=='sys';}).length>=2){ logCall(r,dur); }
+    callState='idle'; finalizing=false; setStatus('Ended'); setOrb();
+  },350);
+}
+function renderResult(r){
+  $('r-score').textContent=r.total;
+  $('r-score').style.color=r.total>=PASS?'var(--green)':(r.total>=55?'var(--sun)':'var(--coral)');
+  var v=$('r-verdict');
+  if(r.booked){v.textContent='Booked. You secured the Mini Vac.';v.className='verdict pass';}
+  else if(r.hardFail){v.textContent='They shut it down. No booking.';v.className='verdict fail';}
+  else{v.textContent='No booking this time.';v.className='verdict mid';}
+  $('r-note').textContent='Recorded and sent to your manager. Try a tougher prospect, or run it again.';
+  $('result').classList.add('show');
+}
+$('r-again').addEventListener('click', function(){ if(callState!=='idle')return; $('result').classList.remove('show'); transcript=[]; renderT(); setStatus('Ready'); $('timer').textContent='00:00'; window.scrollTo(0,0); });
+
+function logCall(r,dur){
+  try{
+    var payload={ code:code, name:cand.name, email:cand.email, difficulty:diff, scenario:TIERS[diff].label, score:r.total,
+      passed:r.total>=PASS, outcome:r.booked?'booked':(r.hardFail?'rejected':'no_booking'),
+      duration_sec:dur, conversation_id:lastConvId||'',
+      transcript:transcript.filter(function(t){return t.source!=='sys';}).map(function(t){return {source:t.source,message:t.message};}) };
+    fetch('/api/log',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
+  }catch(e){}
+}
+</script>
+</body>
+</html>
